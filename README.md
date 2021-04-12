@@ -31,7 +31,8 @@ The class contains several attributes and methods for ease of use during testing
   * `route` - a list containing the names of locations if the order to be traveled. if this argument is empty,
     the `initial_route` will be used.
   * `labels` - boolean, if `True` adds labels to all locations.
-* **`random_route` -** returns a random route. has one optional argument:
+* **`random_route` -** returns a random route. it should be noted that when `circle = False` the initial_route can also
+  serve as a random route since the locations are random. has one optional argument:
   * **`seed` -** accepts any, uses the input as the random seed.
 * **`add_location` -** adds a single location to the `locations` dictionary, and the `initial_route` list. has two
   mandatory arguments and one optional argument:
@@ -89,6 +90,16 @@ tsm.plot(route=opt_route)
 
 the printed plot:
 
-
 ![Figure_1](https://user-images.githubusercontent.com/76598250/114361374-59cd3900-9b76-11eb-98ae-f5a87cca2261.png)
+
+## Using circle
+
+Sometimes it is useful to know the true global optima to check how far off the result from the optimization algorithm
+is. In order to do that, I've added the `circle` argument when creating the instance. When using this option, the
+locations will be generated in the shape of a circle, this means that the `initial_route`
+is also the global minima for this set of locations. It is important to note that the optimal route can start and end
+anywhere, therefore, the optimal route found by an algorithm might not be 100% identical to the `initial_route` from
+the `TSM` class but still be a global optima.
+
+here is a plot of the initial cost of 50 locations (optimal cost= 6153.5)
 
