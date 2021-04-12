@@ -103,3 +103,4 @@ the `TSM` class but still be a global optima.
 
 here is a plot of the initial cost of 50 locations (optimal cost= 6153.5)
 
+![Figure_1](https://user-images.githubusercontent.com/76598250/114386249-42e81000-9b91-11eb-867a-be24bab5c67a.png)
