@@ -88,3 +88,7 @@ tsm.plot(route=opt_route)
 ```
 
 the printed plot:
+
+
+![Figure_1](https://user-images.githubusercontent.com/76598250/114361374-59cd3900-9b76-11eb-98ae-f5a87cca2261.png)
+
