@@ -13,15 +13,15 @@ class TSM:
         :param locations: the number of locations to generate
         :param circle: generate locations in circle shape or randomly
         """
-        self.__circle = circle  # if locations should be arranged in a circle
+        self.__circle: bool = circle  # if locations should be arranged in a circle
         # dict with location ID as key and location in tuple {1:(10,42)}
-        self.locations = self.__gen_locations(locations)
-        self.__initial_route = list(self.locations.keys())  # optimal state in circle form, first state in general
-        self.__initial_cost = self.cost(self.__initial_route)  # cost of op_route
+        self.locations: dict = self.__gen_locations(locations)
+        self.__initial_route: list = list(self.locations.keys())  # optimal state in circle form, first state in general
+        self.__initial_cost: float = self.cost(self.__initial_route)  # cost of op_route
 
     # generate a list of random cities
-    def __gen_locations(self, locations):  # generate dict of locations
-        result = {}
+    def __gen_locations(self, locations: int) -> dict:  # generate dict of locations
+        result: dict = {}
         if self.__circle:  # arrange locations in a circle
             dr = (2 * pi) / locations
             for i in range(locations):  # create n locations
@@ -103,7 +103,7 @@ class TSM:
         :param seed: the seed for random functions
         :return: a list representing a randomized route
         """
-        result = self.__initial_route.copy()  # random state
+        result: list = self.__initial_route.copy()  # random state
         if seed is not None:
             random.seed(seed)
         random.shuffle(result)  # shuffle the random state
