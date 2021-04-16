@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='TravelingSalesman',
-    version='v1.0.0',
+    version='v0.0.1',
     packages=find_packages(),
     url='https://github.com/Tommer-R/Traveling-salesman',
     license='MIT',
