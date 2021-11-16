@@ -1,6 +1,9 @@
 # Traveling-salesman
 
-A class for testing optimization algorithms using the "traveling salesman" problem
+A class for testing discrete optimization algorithms using the "traveling salesman" problem.
+
+**discrete optimization:** arranging an array of several member in the optimal order according to a cost (score)
+function.
 
 ## Class structure
 
@@ -24,9 +27,9 @@ The class contains several attributes and methods for ease of use during testing
   * `locations = int` which accepts an integer and determines the number of generated locations(default is 10)
   * `circle = bool` which accepts a boolean and determines if the locations are to be generated in a circle(default
     is `False`)
-* **`cost` -** evaluates the route inputted through the argument `route`. the route must be a list containing the names
-  of locations if the order to be traveled. the function returns the sum of all distances between locations in the order
-  of the route list.
+* **`distance` -** evaluates the route inputted through the argument `route`. the route must be a list containing the
+  names of locations in the order to be traveled. the function returns the sum of all distances between locations in the
+  order of the route list. this distance will be used as the cost of a solution by the optimizer.
 * **`plot` -** show a plot of a given route. has two optional arguments:
   * `route` - a list containing the names of locations if the order to be traveled. if this argument is empty,
     the `initial_route` will be used.
@@ -55,19 +58,14 @@ tsm = TSM(locations=10, circle=False)
 to get the initial route, and a random route
 
 ```python
-init_route = tsm.initial_route
-rand_route = tsm.random_route()
-
-print(init_route)  # out: [0,1,2,3,4,5,6,7,8,9]
-print(rand_route)  # out: [5,3,4,7,9,1,0,6,2,8]
+init_route = tsm.initial_route   # return: [0,1,2,3,4,5,6,7,8,9]
+rand_route = tsm.random_route()  # return: [5,3,4,7,9,1,0,6,2,8]
 ```
 
-to get the cost of a route.
+to get the distance of a route.
 
 ```python
-distance = tsm.cost(route=rand_route)
-
-print(distance)  # out: 58317
+distance = tsm.distance(route=rand_route)  # return: 58317
 ```
 
 to add a location
@@ -99,7 +97,8 @@ is. In order to do that, I've added the `circle` argument when creating the inst
 locations will be generated in the shape of a circle, this means that the `initial_route`
 is also the global minima for this set of locations. It is important to note that the optimal route can start and end
 anywhere, therefore, the optimal route found by an algorithm might not be 100% identical to the `initial_route` from
-the `TSM` class but still be a global optima.
+the `TSM` class but would still be a global optima. to make sure you have achieved a true optimal route you should make
+sure its cost (total distance) is identical to the initial route and not that the route itself is identical.
 
 here is a plot of the initial cost of 50 locations (optimal cost= 6153.5)
 

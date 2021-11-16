@@ -17,7 +17,7 @@ class TSM:
         # dict with location ID as key and location in tuple {1:(10,42)}
         self.locations: dict = self.__gen_locations(locations)
         self.__initial_route: list = list(self.locations.keys())  # optimal state in circle form, first state in general
-        self.__initial_cost: float = self.cost(self.__initial_route)  # cost of op_route
+        self.__initial_distance: float = self.distance(self.__initial_route)  # distance of the initial route
 
     # generate a list of random cities
     def __gen_locations(self, locations: int) -> dict:  # generate dict of locations
@@ -53,10 +53,10 @@ class TSM:
 
         self.locations[new_key] = (x, y)
         self.__initial_route.append(new_key)
-        self.__initial_cost = self.cost(self.__initial_route)  # cost of op_route
+        self.__initial_distance = self.distance(self.__initial_route)  # distance of op_route
 
-    # calculate the cost (sum distance) of a route
-    def cost(self, route: list = None) -> float:  # calculate the cost of a state
+    # calculate the sum distance of a route
+    def distance(self, route: list = None) -> float:  # calculate the distance of a route
         """
         calculates the total distance of the input state.
         :param route: list of ID keys of the locations.
@@ -83,11 +83,11 @@ class TSM:
         if route is None:  # if state is empty use start_route
             x = [self.locations[key][0] for key in self.__initial_route]
             y = [self.locations[key][1] for key in self.__initial_route]
-            plt.title(f'Distance: {round(self.cost(route=self.__initial_route), 1)}')
+            plt.title(f'Distance: {round(self.distance(route=self.__initial_route), 1)}')
         else:  # use input state
             x = [self.locations[key][0] for key in route]
             y = [self.locations[key][1] for key in route]
-            plt.title(f'Distance: {round(self.cost(route=route), 1)}')
+            plt.title(f'Distance: {round(self.distance(route=route), 1)}')
         plt.plot(x, y, zorder=1)  # plot the state
         plt.scatter(x, y, s=50, c='red', zorder=2)  # scatter the locations
         for i in self.locations.keys():  # create labels
