@@ -16,7 +16,7 @@ The class contains several attributes and methods for ease of use during testing
 
 ### Attributes and properties
 
-* **`locations` -** dictionary, containing all of the coordinates. e.g:
+* **`locations` -** dictionary, containing all the coordinates. e.g:
   ```instace.locations = {1: (153, 636), 2: (23, 523), 3: (864, 41)}```
 * **`circle` -** boolean(getter), `True` if generated locations in a circle.
 * **`initial_route` -** list(getter), the names of locations in the ordered they were generated in.
