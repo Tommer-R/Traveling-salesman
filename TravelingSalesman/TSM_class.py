@@ -12,9 +12,10 @@ import numpy as np
 class TSM:
     def __init__(self, locations: int = 10, circle: bool = False, render=False) -> None:
         """
-        generates n 2D locations on matrix of 1000*1000 in circle shape or random scatter.
+        generates n 2D locations on matrix of 1000*1000 in circle shape or random scatter to
+        test optimization algorithms.
         :param locations: the number of locations to generate
-        :param circle: generate locations in circle shape or randomly
+        :param circle: generate locations in circle shape. this allows calculating the optimal distance without solving
         """
         self.__circle: bool = circle  # if locations should be arranged in a circle
         self.do_render = render  # show live plot or not
@@ -25,12 +26,16 @@ class TSM:
         self.adjacency_lists = self.__calc_adjacency_matrix()  # create list
         self.__start_time = time()
 
-        # define and adjust figure
-        self.fig = plt.figure(figsize=(16, 8), facecolor='#DEDEDE')
-        self.ax = plt.subplot(1, 2, 1)
-        self.ax1 = plt.subplot(1, 2, 2)
-        self.ax.set_facecolor('#DEDEDE')
-        self.ax1.set_facecolor('#DEDEDE')
+        if render:
+            # define and adjust figure
+            self.fig = plt.figure(figsize=(16, 8), facecolor='#DEDEDE')
+            self.ax = plt.subplot(1, 2, 1)
+            self.ax1 = plt.subplot(1, 2, 2)
+            self.ax.set_facecolor('#DEDEDE')
+            self.ax1.set_facecolor('#DEDEDE')
+            self.__rendered = True  # created plot variables
+        else:
+            self.__rendered = False
 
         self.__initial_distance: float = self.__distance_calculation(self.__initial_route)  # initial route distance
         self.score_history = []  # used for rendering
@@ -61,8 +66,8 @@ class TSM:
     # add one new location with input coordinates
     def add_location(self, x: int, y: int, name: any = None) -> None:
         for i in {x, y}:
-            if not 1 <= i <= 1000 or type(i) not in {int, float}:
-                raise ValueError(f'x and y must be numbers in range [1, 1000]')
+            if type(i) not in {int, float}:
+                raise ValueError(f'x and y must be numbers')
 
         if name is not None:
             new_key = name
@@ -162,6 +167,15 @@ class TSM:
 
     # function to update the data
     def render(self, route: list):
+
+        if not self.__rendered:
+            # define and adjust figure
+            self.fig = plt.figure(figsize=(16, 8), facecolor='#DEDEDE')
+            self.ax = plt.subplot(1, 2, 1)
+            self.ax1 = plt.subplot(1, 2, 2)
+            self.ax.set_facecolor('#DEDEDE')
+            self.ax1.set_facecolor('#DEDEDE')
+            self.__rendered = True
 
         # clear axis
         plt.ioff()
