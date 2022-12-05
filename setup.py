@@ -8,4 +8,8 @@ setup(name='TSMtester',
       url='https://github.com/Tommer-R/Traveling-salesman',
       packages=find_packages('src'),
       package_dir={'': 'src'},
-     )
+      install_requires=[
+          'matplotlib',
+          'numpy',
+      ],
+      )
