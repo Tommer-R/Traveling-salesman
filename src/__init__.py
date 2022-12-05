@@ -1,1 +1,1 @@
-from TravelingSalesman import TSM
+from .TravelingSalesman import TSM

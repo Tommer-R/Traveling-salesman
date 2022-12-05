@@ -220,7 +220,7 @@ class TSM:
                           f'distance function calls: {len(self.score_history)}   |   '
                           f'run time: {run_time}', fontsize=16)
         plt.show(block=False)
-        plt.pause(0.0000001)
+        plt.pause(0.001)
 
         # plt.savefig(f'C:\\Users\\Tommer\\PycharmProjects\\sa_solver\\TravelingSalesman\\figs/fig_'
         #            f'{len(self.score_history)}.png')
@@ -244,4 +244,4 @@ class TSM:
 
     @property
     def initial_route(self):
-        return self.__initial_route
+        return self.__initial_route.copy()
