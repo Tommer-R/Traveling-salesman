@@ -1,7 +1,7 @@
 from setuptools import find_packages, setup
 
 setup(name='TSMtester',
-      version='0.0.4',
+      version='0.0.5',
       description='Traveling salesman problem for testing and benchmarking optimization algorithms',
       author='Tommer Rissin',
       author_email='tommerrissin@gmail.com',
@@ -11,5 +11,6 @@ setup(name='TSMtester',
       install_requires=[
           'matplotlib',
           'numpy',
+          'opencv-python'
       ],
       )

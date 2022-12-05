@@ -7,3 +7,5 @@ if __name__ == '__main__':
     for i in range(100):
         cost = agent.route_distance(agent.random_route())
         print(f'{i}:    {cost}')
+
+    agent.render_video()

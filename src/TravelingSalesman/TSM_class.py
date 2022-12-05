@@ -4,13 +4,16 @@ import random
 from datetime import timedelta
 from math import dist
 from time import time
+import os
 
 import matplotlib.pyplot as plt
+import cv2
 import numpy as np
 
 
 class TSM:
-    def __init__(self, locations: int = 10, circle: bool = False, render=False) -> None:
+    def __init__(self, locations: int = 10, circle: bool = False, render=False,
+                 save_renders: [str, bool] = True) -> None:
         """
         generates n 2D locations on matrix of 1000*1000 in circle shape or random scatter to
         test optimization algorithms.
@@ -19,6 +22,39 @@ class TSM:
         """
         self.__circle: bool = circle  # if locations should be arranged in a circle
         self.do_render = render  # show live plot or not
+        if isinstance(save_renders, bool):
+            self.save_renders = save_renders
+            self.renders_path = os.path.join(os.getcwd(), 'TSM_renders')
+            # Check if folder exists
+            if not os.path.exists(self.renders_path):
+                # Create folder if it doesn't exist
+                os.makedirs(self.renders_path)
+            else:
+                # Remove all files in the folder if it exists
+                for the_file in os.listdir(self.renders_path):
+                    file_path = os.path.join(self.renders_path, the_file)
+                    try:
+                        if os.path.isfile(file_path):
+                            os.unlink(file_path)
+                    except Exception as e:
+                        print(e)
+        else:
+            self.save_renders = True
+            self.renders_path: str = save_renders
+            # Check if folder exists
+            if not os.path.exists(self.renders_path):
+                # Create folder if it doesn't exist
+                os.makedirs(self.renders_path)
+            else:
+                # Remove all files in the folder if it exists
+                for the_file in os.listdir(self.renders_path):
+                    file_path = os.path.join(self.renders_path, the_file)
+                    try:
+                        if os.path.isfile(file_path):
+                            os.unlink(file_path)
+                    except Exception as e:
+                        print(e)
+
         # dict with location ID as key and location in tuple {1:(10,42)}
         self.score_history = []  # used for rendering
         self.locations: dict = self.__gen_locations(locations)  # generate the locations dict
@@ -222,8 +258,41 @@ class TSM:
         plt.show(block=False)
         plt.pause(0.001)
 
-        # plt.savefig(f'C:\\Users\\Tommer\\PycharmProjects\\sa_solver\\TravelingSalesman\\figs/fig_'
-        #            f'{len(self.score_history)}.png')
+        plt.savefig(os.path.join(self.renders_path, f'render_{len(self.score_history)}.png'))
+
+    def render_video(self, path: str = None, delete_images: bool = True):
+        if path is None:
+            path = self.renders_path
+
+        # Get a list of all image files in the folder
+        images = [img for img in os.listdir(self.renders_path) if img.endswith(".png") or img.endswith(".jpg")]
+
+        # Read the first image to get the image size
+        height, width, channels = cv2.imread(os.path.join(self.renders_path, images[0])).shape
+
+        # Define the codec and create VideoWriter object
+        fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+        out = cv2.VideoWriter(os.path.join(path, 'TSM_render.mp4'), fourcc, 10, (width, height))
+
+        # Write the images to the video file
+        for image in images:
+            image_path = os.path.join(self.renders_path, image)
+            frame = cv2.imread(image_path)
+            out.write(frame)
+
+        # Release the VideoWriter object
+        out.release()
+
+        if delete_images:
+            # Remove all files in the folder if it exists
+            for the_file in os.listdir(self.renders_path):
+                if not the_file.endswith('.mp4'):
+                    file_path = os.path.join(self.renders_path, the_file)
+                    try:
+                        if os.path.isfile(file_path):
+                            os.unlink(file_path)
+                    except Exception as e:
+                        print(e)
 
     def reset(self):
         self.__initial_route: list = list(self.locations.keys())  # optimal state in circle form, first state in general
@@ -233,6 +302,20 @@ class TSM:
             self.route_distance = self.__distance_calculation
         else:  # under 800 calculation using matrix calculation is faster
             self.route_distance = self.__distance_matrix_calculation
+
+        # Check if folder exists
+        if not os.path.exists(self.renders_path):
+            # Create folder if it doesn't exist
+            os.makedirs(self.renders_path)
+        else:
+            # Remove all files in the folder if it exists
+            for the_file in os.listdir(self.renders_path):
+                file_path = os.path.join(self.renders_path, the_file)
+                try:
+                    if os.path.isfile(file_path):
+                        os.unlink(file_path)
+                except Exception as e:
+                    print(e)
 
     @property
     def adjacency_matrix(self):
